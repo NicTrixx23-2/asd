@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Maxi Clicker</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        html {
+            touch-action: manipulation;
+        }
+        #password-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        #game-container {
+            display: none; /* Hide the game container initially */
+        }
+        #lock-game {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="password-screen">
+        <input type="password" id="password-input" placeholder="Enter Password">
+        <button id="password-button">Enter</button>
+        <p id="error-message" style="color: red; display: none;">Incorrect Password. Please try again.</p>
+    </div>
+
+    <div id="game-container">
+        <button2 id="game-hub" onclick="window.location.href='https://nictrixx23-2.github.io/games-hub';">Back to Game Hub</button2>
+        <h1>Maxi Clicker</h1>
+        <img src="mit lange c" id="cookie" alt="Musste das Bild rausnehmen weil Max' Eltern es nd wollen" onerror="console.error('Image failed to load');">
+        <br>
+        <div id="cookie-count">Maxis: 0</div>
+        <div id="automaxi-count">Automaxis: 0</div>
+        <div id="grandmaxi-count">Grandmaxis: 0</div>
+        <div id="maxiplantage-count">Maxiplantagen: 0</div>
+        <div id="maxitaxi-count">Maxitaxis: 0</div>
+        <div class="button-container">
+            <button id="automaxi">Buy Automaxi (10 Maxies)</button>
+            <button id="grandmaxi">Buy Grandmaxi (20 Maxies)</button>
+            <br>
+            <button id="maxiplantage">Buy Maxiplantage (100 Maxies)</button>
+            <button id="maxitaxi">Buy Maxitaxi (250 Maxies)</button>
+        </div>
+        <div class="save-load">
+            <button id="save-game">Save Game</button>
+            <input type="file" id="load-game" accept=".json">
+        </div>
+        <button id="win">You Win!</button> <!-- Win button initially hidden -->
+        <button id="lock-game">Lock Game</button>
+    </div>
+
+    <script>
+        const correctPassword = "Gisela Gießhans";
+
+        document.getElementById('password-button').onclick = function() {
+            const inputPassword = document.getElementById('password-input').value;
+            if (inputPassword === correctPassword) {
+                document.getElementById('password-screen').style.display = 'none';
+                document.getElementById('game-container').style.display = 'block';
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+            }
+        };
+
+        document.getElementById('lock-game').onclick = function() {
+            document.getElementById('password-screen').style.display = 'flex';
+            document.getElementById('game-container').style.display = 'none';
+        };
+
+        let cookieCount = 10000000000;
+        let autoMaxis = 0;
+        let grandMaxis = 0;
+        let maxiplantage = 0;
+        let maxitaxis = 0;
+        let autoMaxiCost = 10;
+        let grandMaxiCost = 20;
+        let maxiplantageCost = 100;
+        let maxitaxiCost = 250;
+
+        // Function to update the display of counts
+        function updateDisplay() {
+            document.getElementById('cookie-count').innerText = `Maxies: ${cookieCount}`;
+            document.getElementById('automaxi-count').innerText = `Automaxis: ${autoMaxis}`;
+            document.getElementById('grandmaxi-count').innerText = `Grandmaxis: ${grandMaxis}`;
+            document.getElementById('maxiplantage-count').innerText = `Maxiplantagen: ${maxiplantage}`;
+            document.getElementById('maxitaxi-count').innerText = `Maxitaxis: ${maxitaxis}`;
+            document.getElementById('automaxi').innerText = `Buy Automaxi (${autoMaxiCost} Maxies)`;
+            document.getElementById('grandmaxi').innerText = `Buy Grandmaxi (${grandMaxiCost} Maxies)`;
+            document.getElementById('maxiplantage').innerText = `Buy Maxiplantage (${maxiplantageCost} Maxies)`;
+            document.getElementById('maxitaxi').innerText = `Buy Maxitaxi (${maxitaxiCost} Maxies)`;
+
+            // Show the win button if cookie count is 1 million or more
+            if (cookieCount >= 1000000) {
+                document.getElementById('win').style.display = 'inline';
+            }
+        }
+
+        // Clicking on the cookie increments cookie count
+        document.getElementById('cookie').onclick = function() {
+            cookieCount++;
+            updateDisplay();
+        };
+
+        // Buying Automaxi
+        document.getElementById('automaxi').onclick = function() {
+            if (cookieCount >= autoMaxiCost) {
+                cookieCount -= autoMaxiCost;
+                autoMaxis++;
+                autoMaxiCost = Math.round(autoMaxiCost * 1.15);
+                updateDisplay();
+            }
+        };
+
+        // Buying Grandmaxi
+        document.getElementById('grandmaxi').onclick = function() {
+            if (cookieCount >= grandMaxiCost) {
+                cookieCount -= grandMaxiCost;
+                grandMaxis++;
+                grandMaxiCost = Math.round(grandMaxiCost * 1.15);
+                updateDisplay();
+            }
+        };
+
+        // Buying Maxiplantage
+        document.getElementById('maxiplantage').onclick = function() {
+            if (cookieCount >= maxiplantageCost) {
+                cookieCount -= maxiplantageCost;
+                maxiplantage++;
+                maxiplantageCost = Math.round(maxiplantageCost * 1.30);
+                updateDisplay();
+            }
+        };
+
+        // Buying Maxitaxi
+        document.getElementById('maxitaxi').onclick = function() {
+            if (cookieCount >= maxitaxiCost) {
+                cookieCount -= maxitaxiCost;
+                maxitaxis++;
+                maxitaxiCost = Math.round(maxitaxiCost * 1.30);
+                updateDisplay();
+            }
+        };
+
+        // Automatic cookie generation from Automaxis, Grandmaxis, Maxiplantagen, and Maxitaxis
+        function autoClick() {
+            cookieCount += autoMaxis + (grandMaxis * 5) + (maxiplantage * 20) + (maxitaxis * 50);  
+            updateDisplay();
+        }
+
+        // Set interval for automatic cookie generation
+        setInterval(autoClick, 1000);
+
+        // Save game functionality
+        document.getElementById('save-game').onclick = function() {
+            const saveData = {
+                cookieCount,
+                autoMaxis,
+                grandMaxis,
+                maxiplantage,
+                maxitaxis,
+                autoMaxiCost,
+                grandMaxiCost,
+                maxiplantageCost,
+                maxitaxiCost
+            };
+            const jsonData = JSON.stringify(saveData);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'cookie_clicker_save.json';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+
+        // Load game functionality
+        document.getElementById('load-game').onchange = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const contents = e.target.result;
+                const data = JSON.parse(contents);
+                cookieCount = data.cookieCount;
+                autoMaxis = data.autoMaxis;
+                grandMaxis = data.grandMaxis;
+                maxiplantage = data.maxiplantage;
+                maxitaxis = data.maxitaxis;
+                autoMaxiCost = data.autoMaxiCost;
+                grandMaxiCost = data.grandMaxiCost;
+                maxiplantageCost = data.maxiplantageCost;
+                maxitaxiCost = data.maxitaxiCost;
+                updateDisplay();
+            };
+            reader.readAsText(file);
+        };
+
+        // Initial display update
+        updateDisplay();
+    </script>
+</body>
+beta V0.1.5
+</html>
