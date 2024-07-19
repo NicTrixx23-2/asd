@@ -9,40 +9,16 @@
         html {
             touch-action: manipulation;
         }
-        #password-screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        #game-container {
-            display: none; /* Hide the game container initially */
-        }
-        #lock-game {
-            position: fixed;
-            top: 10px;
-            right: 10px;
+        #win {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div id="password-screen">
-        <input type="password" id="password-input" placeholder="Enter Password">
-        <button id="password-button">Enter</button>
-        <p id="error-message" style="color: red; display: none;">Incorrect Password. Please try again.</p>
-    </div>
-
     <div id="game-container">
-        <button2 id="game-hub" onclick="window.location.href='https://nictrixx23-2.github.io/games-hub';">Back to Game Hub</button2>
+        <button id="game-hub" onclick="window.location.href='https://nictrixx23-2.github.io/games-hub';">Back to Game Hub</button>
         <h1>Maxi Clicker</h1>
-        <img src="mit lange c" id="cookie" alt="Musste das Bild rausnehmen weil Max' Eltern es nd wollen" onerror="console.error('Image failed to load');">
+        <img src="cookie/cookie.png" id="cookie" alt="Cookie" onerror="console.error('Image failed to load');">
         <br>
         <div id="cookie-count">Maxis: 0</div>
         <div id="automaxi-count">Automaxis: 0</div>
@@ -60,29 +36,11 @@
             <button id="save-game">Save Game</button>
             <input type="file" id="load-game" accept=".json">
         </div>
-        <button id="win">You Win!</button> <!-- Win button initially hidden -->
-        <button id="lock-game">Lock Game</button>
+        <button id="win">You Win!</button>
     </div>
 
     <script>
-        const correctPassword = "Gisela Gießhans";
-
-        document.getElementById('password-button').onclick = function() {
-            const inputPassword = document.getElementById('password-input').value;
-            if (inputPassword === correctPassword) {
-                document.getElementById('password-screen').style.display = 'none';
-                document.getElementById('game-container').style.display = 'block';
-            } else {
-                document.getElementById('error-message').style.display = 'block';
-            }
-        };
-
-        document.getElementById('lock-game').onclick = function() {
-            document.getElementById('password-screen').style.display = 'flex';
-            document.getElementById('game-container').style.display = 'none';
-        };
-
-        let cookieCount = 10000000000;
+        let cookieCount = 0;
         let autoMaxis = 0;
         let grandMaxis = 0;
         let maxiplantage = 0;
@@ -94,7 +52,7 @@
 
         // Function to update the display of counts
         function updateDisplay() {
-            document.getElementById('cookie-count').innerText = `Maxies: ${cookieCount}`;
+            document.getElementById('cookie-count').innerText = `Cookies: ${cookieCount}`;
             document.getElementById('automaxi-count').innerText = `Automaxis: ${autoMaxis}`;
             document.getElementById('grandmaxi-count').innerText = `Grandmaxis: ${grandMaxis}`;
             document.getElementById('maxiplantage-count').innerText = `Maxiplantagen: ${maxiplantage}`;
@@ -154,6 +112,11 @@
                 maxitaxiCost = Math.round(maxitaxiCost * 1.30);
                 updateDisplay();
             }
+        };
+
+        // Winning the game
+        document.getElementById('win').onclick = function() {
+            alert('Congratulations! You Win!');
         };
 
         // Automatic cookie generation from Automaxis, Grandmaxis, Maxiplantagen, and Maxitaxis
@@ -216,5 +179,5 @@
         updateDisplay();
     </script>
 </body>
-beta V0.1.5
+    Beta V0.1.7
 </html>
